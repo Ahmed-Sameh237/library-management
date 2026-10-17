@@ -1,4 +1,6 @@
 # 📚 Library Management System
+<img width="1906" height="914" alt="image" src="https://github.com/user-attachments/assets/caa5d56b-08d5-4ab0-9434-e66bab9269a7" />
+
 
 A library management web app built with **ASP.NET Core Razor Pages**, **Entity Framework Core (Code First)** and **SQL Server**.
 
