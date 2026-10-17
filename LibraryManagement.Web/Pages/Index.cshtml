@@ -1,10 +1,212 @@
 ﻿@page
-@model IndexModel
+@model LibraryManagement.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
+    ViewData["FullWidth"] = true;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <div class="hero-bg">
+        <span class="blob b1"></span>
+        <span class="blob b2"></span>
+        <span class="blob b3"></span>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="pill reveal"><i class="bi bi-stars text-primary"></i> Library management, made simple</span>
+
+                <h1 class="display-3 mt-4 reveal" style="--d:.1s">
+                    Run your library<br />with
+                    <span class="text-gradient rotator" data-words='["ease","confidence","speed","style"]'>ease</span>
+                </h1>
+
+                <p class="lead text-body-secondary mt-3 mb-4 reveal" style="--d:.2s; max-width: 540px">
+                    Catalog books, manage members, track loans and spot overdue returns, all in one place.
+                </p>
+
+                <form method="get" asp-page="/Books/Index" class="hero-search reveal" style="--d:.3s">
+                    <i class="bi bi-search text-body-secondary"></i>
+                    <input type="text" name="Search" placeholder="Search by title, author or ISBN..." autocomplete="off" />
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Search</button>
+                </form>
+
+                <div class="d-flex flex-wrap gap-2 mt-4 reveal" style="--d:.4s">
+                    <a asp-page="/Loans/Borrow" class="btn btn-primary btn-glow btn-lg rounded-pill px-4">
+                        <i class="bi bi-plus-lg me-1"></i>Borrow a book
+                    </a>
+                    <a asp-page="/Reports/Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                        <i class="bi bi-bar-chart-line me-1"></i>View reports
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="stack">
+                    @for (var i = 0; i < Math.Min(3, Model.Latest.Count); i++)
+                    {
+                        var book = Model.Latest[i];
+                        <div class="mini m@(i)">
+                            <div class="thumb cover-@(book.Id % 6)">@book.Title[0]</div>
+                            <div>
+                                <div class="t">@book.Title</div>
+                                <div class="small text-body-secondary">@book.AuthorName</div>
+                                <span class="badge rounded-pill mt-1 @(book.AvailableCopies > 0 ? "bg-success-subtle text-success-emphasis" : "bg-danger-subtle text-danger-emphasis")">
+                                    @(book.AvailableCopies > 0 ? "Available" : "All out")
+                                </span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="container pb-5">
+    <div class="row g-3">
+        <div class="col-6 col-lg-3 reveal">
+            <div class="stat">
+                <div class="num text-gradient"><span data-count="@Model.TitleCount">0</span></div>
+                <div class="text-body-secondary">Book titles</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 reveal" style="--d:.1s">
+            <div class="stat">
+                <div class="num text-gradient"><span data-count="@Model.MemberCount">0</span></div>
+                <div class="text-body-secondary">Members</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 reveal" style="--d:.2s">
+            <div class="stat">
+                <div class="num text-gradient"><span data-count="@Model.ActiveLoans">0</span></div>
+                <div class="text-body-secondary">Active loans</div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3 reveal" style="--d:.3s">
+            <div class="stat">
+                <div class="num @(Model.OverdueCount > 0 ? "text-danger" : "text-success")"><span data-count="@Model.OverdueCount">0</span></div>
+                <div class="text-body-secondary">Overdue</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="container py-5">
+    <div class="text-center mb-5 reveal">
+        <div class="section-eyebrow">Everything you need</div>
+        <h2 class="section-title display-6 mt-2">One place for the whole library</h2>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4 reveal">
+            <a asp-page="/Books/Index" class="feature spot">
+                <div class="icon-box cover-0"><i class="bi bi-book"></i></div>
+                <h5 class="fw-bold">Smart catalog</h5>
+                <p class="text-body-secondary mb-0">Search by title, author or ISBN, filter by category, and see availability at a glance.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal" style="--d:.1s">
+            <a asp-page="/Loans/Borrow" class="feature spot">
+                <div class="icon-box cover-1"><i class="bi bi-arrow-left-right"></i></div>
+                <h5 class="fw-bold">Easy borrowing</h5>
+                <p class="text-body-secondary mb-0">Borrow and return in a click. Rules like loan limits and copy counts are enforced for you.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal" style="--d:.2s">
+            <a asp-page="/Loans/Index" asp-route-filter="overdue" class="feature spot">
+                <div class="icon-box cover-2"><i class="bi bi-alarm"></i></div>
+                <h5 class="fw-bold">Overdue tracking</h5>
+                <p class="text-body-secondary mb-0">Spot late returns instantly with a dedicated overdue view and status badges.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+            <a asp-page="/Members/Index" class="feature spot">
+                <div class="icon-box cover-3"><i class="bi bi-people"></i></div>
+                <h5 class="fw-bold">Member profiles</h5>
+                <p class="text-body-secondary mb-0">Every member has a full loan history and a live count of active loans.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal" style="--d:.1s">
+            <a asp-page="/Authors/Index" class="feature spot">
+                <div class="icon-box cover-4"><i class="bi bi-person-lines-fill"></i></div>
+                <h5 class="fw-bold">Authors</h5>
+                <p class="text-body-secondary mb-0">Keep authors and biographies organised, linked to every book they wrote.</p>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal" style="--d:.2s">
+            <a asp-page="/Reports/Index" class="feature spot">
+                <div class="icon-box cover-5"><i class="bi bi-bar-chart-line"></i></div>
+                <h5 class="fw-bold">Insightful reports</h5>
+                <p class="text-body-secondary mb-0">Most borrowed books, loans per member and category trends, powered by LINQ.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+@if (Model.Categories.Any())
+{
+    <section class="container py-4">
+        <div class="text-center mb-4 reveal">
+            <div class="section-eyebrow">Browse</div>
+            <h2 class="section-title display-6 mt-2">Find your next read</h2>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2 reveal">
+            @foreach (var c in Model.Categories)
+            {
+                <a class="chip" asp-page="/Books/Index" asp-route-CategoryId="@c.Id">
+                    @c.Name <small>@c.BookCount</small>
+                </a>
+            }
+        </div>
+    </section>
+}
+
+<!-- ================= LATEST BOOKS ================= -->
+@if (Model.Latest.Any())
+{
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-end mb-4 reveal">
+            <div>
+                <div class="section-eyebrow">Just added</div>
+                <h2 class="section-title display-6 mt-2 mb-0">Latest additions</h2>
+            </div>
+            <a asp-page="/Books/Index" class="fw-semibold text-decoration-none">
+                View all <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var (book, index) in Model.Latest.Select((b, i) => (b, i)))
+            {
+                <div class="col-sm-6 col-lg-3 reveal" style="--d:@(index * 0.1)s">
+                    <a asp-page="/Books/Details" asp-route-id="@book.Id" class="book-tile spot text-decoration-none">
+                        <div class="cover cover-@(book.Id % 6)">@book.Title[0]</div>
+                        <h6 class="fw-bold mb-1">@book.Title</h6>
+                        <div class="small text-body-secondary mb-2">@book.AuthorName</div>
+                        <span class="badge rounded-pill @(book.AvailableCopies > 0 ? "bg-success-subtle text-success-emphasis" : "bg-danger-subtle text-danger-emphasis")">
+                            @(book.AvailableCopies > 0 ? $"{book.AvailableCopies} available" : "All copies out")
+                        </span>
+                    </a>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+<!-- ================= CALL TO ACTION ================= -->
+<section class="container pb-5 pt-3">
+    <div class="cta reveal">
+        <h2 class="fw-bold display-6">Ready to lend a book?</h2>
+        <p class="opacity-75 mb-4">Pick a book, pick a member, and you're done. Due dates are handled for you.</p>
+        <a asp-page="/Loans/Borrow" class="btn btn-light btn-lg rounded-pill px-5">
+            <i class="bi bi-plus-lg me-1"></i>Borrow a book
+        </a>
+    </div>
+</section>
