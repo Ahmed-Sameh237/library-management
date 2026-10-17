@@ -1,0 +1,17 @@
+@page "{id:int}"
+@model LibraryManagement.Web.Pages.Books.DeleteModel
+@{
+    ViewData["Title"] = "Delete Book";
+}
+
+<h1>Delete Book</h1>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<h3>Are you sure you want to delete <strong>@Model.Book.Title</strong>?</h3>
+<p>By @Model.Book.Author?.Name, ISBN @Model.Book.Isbn.</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

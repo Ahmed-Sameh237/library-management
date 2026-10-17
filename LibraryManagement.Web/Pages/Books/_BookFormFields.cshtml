@@ -1,0 +1,49 @@
+@model LibraryManagement.Web.Pages.Books.BookFormPageModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="Book.Title" class="form-label"></label>
+    <input asp-for="Book.Title" class="form-control" />
+    <span asp-validation-for="Book.Title" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Book.Isbn" class="form-label"></label>
+    <input asp-for="Book.Isbn" class="form-control" />
+    <span asp-validation-for="Book.Isbn" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Book.PublishedYear" class="form-label"></label>
+        <input asp-for="Book.PublishedYear" class="form-control" />
+        <span asp-validation-for="Book.PublishedYear" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label asp-for="Book.TotalCopies" class="form-label"></label>
+        <input asp-for="Book.TotalCopies" class="form-control" />
+        <span asp-validation-for="Book.TotalCopies" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Book.AuthorId" class="form-label"></label>
+    <select asp-for="Book.AuthorId" asp-items="Model.AuthorOptions" class="form-select">
+        <option value="">-- Select an author --</option>
+    </select>
+    <span asp-validation-for="Book.AuthorId" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Categories</label>
+    @foreach (var category in Model.AllCategories)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox"
+                   name="SelectedCategoryIds" value="@category.Id" id="cat-@category.Id"
+                   checked="@Model.SelectedCategoryIds.Contains(category.Id)" />
+            <label class="form-check-label" for="cat-@category.Id">@category.Name</label>
+        </div>
+    }
+</div>

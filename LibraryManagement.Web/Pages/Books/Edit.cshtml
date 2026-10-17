@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model LibraryManagement.Web.Pages.Books.EditModel
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<h1>Edit Book</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <partial name="_BookFormFields" model="Model" />
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibraryManagement.Web.Models;
 
@@ -29,4 +30,8 @@ public class Book
     public ICollection<Category> Categories { get; set; } = new List<Category>();
 
     public ICollection<Loan> Loans { get; set; } = new List<Loan>();
+
+    // Computed, not stored. Only correct when Loans has been loaded with Include.
+    [NotMapped]
+    public int AvailableCopies => TotalCopies - Loans.Count(l => l.ReturnedOn == null);
 }
