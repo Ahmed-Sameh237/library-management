@@ -35,6 +35,58 @@ namespace LibraryManagement.Web.Migrations
                     b.HasIndex("CategoriesId");
 
                     b.ToTable("BookCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            BooksId = 1,
+                            CategoriesId = 2
+                        },
+                        new
+                        {
+                            BooksId = 1,
+                            CategoriesId = 3
+                        },
+                        new
+                        {
+                            BooksId = 2,
+                            CategoriesId = 1
+                        },
+                        new
+                        {
+                            BooksId = 2,
+                            CategoriesId = 3
+                        },
+                        new
+                        {
+                            BooksId = 3,
+                            CategoriesId = 3
+                        },
+                        new
+                        {
+                            BooksId = 3,
+                            CategoriesId = 5
+                        },
+                        new
+                        {
+                            BooksId = 4,
+                            CategoriesId = 2
+                        },
+                        new
+                        {
+                            BooksId = 5,
+                            CategoriesId = 2
+                        },
+                        new
+                        {
+                            BooksId = 6,
+                            CategoriesId = 4
+                        },
+                        new
+                        {
+                            BooksId = 6,
+                            CategoriesId = 3
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagement.Web.Models.Author", b =>
@@ -57,6 +109,32 @@ namespace LibraryManagement.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Biography = "English novelist and essayist, known for dystopian fiction.",
+                            Name = "George Orwell"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Biography = "English novelist known for her romantic fiction and social commentary.",
+                            Name = "Jane Austen"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Biography = "American writer and professor of biochemistry, famous for science fiction.",
+                            Name = "Isaac Asimov"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Biography = "English writer known for her detective novels.",
+                            Name = "Agatha Christie"
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagement.Web.Models.Book", b =>
@@ -94,6 +172,62 @@ namespace LibraryManagement.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AuthorId = 1,
+                            Isbn = "9780451524935",
+                            PublishedYear = 1949,
+                            Title = "1984",
+                            TotalCopies = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 1,
+                            Isbn = "9780451526342",
+                            PublishedYear = 1945,
+                            Title = "Animal Farm",
+                            TotalCopies = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AuthorId = 2,
+                            Isbn = "9780141439518",
+                            PublishedYear = 1813,
+                            Title = "Pride and Prejudice",
+                            TotalCopies = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AuthorId = 3,
+                            Isbn = "9780553293357",
+                            PublishedYear = 1951,
+                            Title = "Foundation",
+                            TotalCopies = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AuthorId = 3,
+                            Isbn = "9780553382563",
+                            PublishedYear = 1950,
+                            Title = "I, Robot",
+                            TotalCopies = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AuthorId = 4,
+                            Isbn = "9780062693662",
+                            PublishedYear = 1934,
+                            Title = "Murder on the Orient Express",
+                            TotalCopies = 3
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagement.Web.Models.Category", b =>
@@ -112,6 +246,33 @@ namespace LibraryManagement.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Classic"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Romance"
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagement.Web.Models.Loan", b =>
@@ -177,6 +338,24 @@ namespace LibraryManagement.Web.Migrations
                         .IsUnique();
 
                     b.ToTable("Members");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "ahmed@example.com",
+                            FullName = "Ahmed Sameh",
+                            JoinedOn = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Phone = "01000000001"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "sara@example.com",
+                            FullName = "Sara Ali",
+                            JoinedOn = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Phone = "01000000002"
+                        });
                 });
 
             modelBuilder.Entity("BookCategory", b =>
