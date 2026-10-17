@@ -1,0 +1,42 @@
+@page
+@model LibraryManagement.Web.Pages.Loans.BorrowModel
+@{
+    ViewData["Title"] = "Borrow a Book";
+}
+
+<h1>Borrow a Book</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="BookId" class="form-label"></label>
+                <select asp-for="BookId" asp-items="Model.BookOptions" class="form-select">
+                    <option value="">-- Select a book --</option>
+                </select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MemberId" class="form-label"></label>
+                <select asp-for="MemberId" asp-items="Model.MemberOptions" class="form-select">
+                    <option value="">-- Select a member --</option>
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+
+            <p class="text-muted">
+                Loans are due after @LibraryManagement.Web.Services.LoanService.LoanDays days.
+            </p>
+
+            <button type="submit" class="btn btn-primary">Borrow</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
