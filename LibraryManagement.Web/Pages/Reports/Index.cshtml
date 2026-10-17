@@ -1,0 +1,99 @@
+@page
+@model LibraryManagement.Web.Pages.Reports.IndexModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>Reports</h1>
+
+<div class="row text-center mb-4">
+    <div class="col-md-3">
+        <div class="card"><div class="card-body">
+            <div class="fs-3">@Model.TotalTitles</div><div class="text-muted">Titles</div>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card"><div class="card-body">
+            <div class="fs-3">@Model.TotalCopies</div><div class="text-muted">Total copies</div>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card"><div class="card-body">
+            <div class="fs-3">@Model.ActiveLoans</div><div class="text-muted">Active loans</div>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-danger"><div class="card-body">
+            <div class="fs-3 text-danger">@Model.OverdueCount</div><div class="text-muted">Overdue</div>
+        </div></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Most borrowed books</h4>
+        @if (Model.MostBorrowed.Any())
+        {
+            <table class="table table-sm">
+                <thead><tr><th>Title</th><th>Times borrowed</th></tr></thead>
+                <tbody>
+                    @foreach (var row in Model.MostBorrowed)
+                    {
+                        <tr><td>@row.Title</td><td>@row.Count</td></tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No loans yet.</p>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h4>Loans by category</h4>
+        <table class="table table-sm">
+            <thead><tr><th>Category</th><th>Loans</th></tr></thead>
+            <tbody>
+                @foreach (var row in Model.LoansByCategory)
+                {
+                    <tr><td>@row.Name</td><td>@row.Count</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h4 class="mt-3">Loans per member</h4>
+<table class="table table-sm">
+    <thead><tr><th>Member</th><th>Total loans</th><th>Active now</th></tr></thead>
+    <tbody>
+        @foreach (var row in Model.LoansPerMember)
+        {
+            <tr><td>@row.Name</td><td>@row.Total</td><td>@row.Active</td></tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="mt-3">Overdue loans</h4>
+@if (Model.Overdue.Any())
+{
+    <table class="table table-sm">
+        <thead><tr><th>Book</th><th>Member</th><th>Due</th><th>Days overdue</th></tr></thead>
+        <tbody>
+            @foreach (var row in Model.Overdue)
+            {
+                <tr>
+                    <td>@row.Book</td>
+                    <td>@row.Member</td>
+                    <td>@row.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td><span class="badge bg-danger">@row.DaysOverdue</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">Nothing is overdue.</p>
+}

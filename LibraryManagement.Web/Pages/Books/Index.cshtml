@@ -13,35 +13,103 @@
 
 <p><a asp-page="Create" class="btn btn-primary">Add new book</a></p>
 
-<table class="table table-striped align-middle">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Categories</th>
-            <th>Available</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var book in Model.Books)
-        {
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Search</label>
+        <input name="Search" value="@Model.Search" class="form-control"
+               placeholder="Title, author or ISBN" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Category</label>
+        <select name="CategoryId" asp-items="Model.CategoryOptions" class="form-select">
+            <option value="">All categories</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="onlyAvailable"
+                   name="OnlyAvailable" value="true" checked="@Model.OnlyAvailable" />
+            <label class="form-check-label" for="onlyAvailable">Available only</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-primary">Filter</button>
+        <a asp-page="Index" class="btn btn-link">Clear</a>
+    </div>
+</form>
+
+<p class="text-muted">@Model.Books.TotalCount book(s) found.</p>
+
+@if (Model.Books.Any())
+{
+    <table class="table table-striped align-middle">
+        <thead>
             <tr>
-                <td>@book.Title</td>
-                <td>@book.Author?.Name</td>
-                <td>
-                    @foreach (var category in book.Categories)
-                    {
-                        <span class="badge bg-secondary">@category.Name</span>
-                    }
-                </td>
-                <td>@book.AvailableCopies / @book.TotalCopies</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@book.Id">Details</a> |
-                    <a asp-page="Edit" asp-route-id="@book.Id">Edit</a> |
-                    <a asp-page="Delete" asp-route-id="@book.Id">Delete</a>
-                </td>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Categories</th>
+                <th>Available</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.AuthorName</td>
+                    <td>
+                        @foreach (var name in book.Categories)
+                        {
+                            <span class="badge bg-secondary">@name</span>
+                        }
+                    </td>
+                    <td>@book.AvailableCopies / @book.TotalCopies</td>
+                    <td>
+                        <a asp-page="Details" asp-route-id="@book.Id">Details</a> |
+                        <a asp-page="Edit" asp-route-id="@book.Id">Edit</a> |
+                        <a asp-page="Delete" asp-route-id="@book.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.Books.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(Model.Books.HasPrevious ? "" : "disabled")">
+                    <a class="page-link" asp-page="Index"
+                       asp-route-PageNumber="@(Model.Books.PageIndex - 1)"
+                       asp-route-Search="@Model.Search"
+                       asp-route-CategoryId="@Model.CategoryId"
+                       asp-route-OnlyAvailable="@(Model.OnlyAvailable ? "true" : null)">Previous</a>
+                </li>
+
+                @for (var p = 1; p <= Model.Books.TotalPages; p++)
+                {
+                    <li class="page-item @(p == Model.Books.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-page="Index"
+                           asp-route-PageNumber="@p"
+                           asp-route-Search="@Model.Search"
+                           asp-route-CategoryId="@Model.CategoryId"
+                           asp-route-OnlyAvailable="@(Model.OnlyAvailable ? "true" : null)">@p</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.Books.HasNext ? "" : "disabled")">
+                    <a class="page-link" asp-page="Index"
+                       asp-route-PageNumber="@(Model.Books.PageIndex + 1)"
+                       asp-route-Search="@Model.Search"
+                       asp-route-CategoryId="@Model.CategoryId"
+                       asp-route-OnlyAvailable="@(Model.OnlyAvailable ? "true" : null)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <p class="text-muted">No books match your filters.</p>
+}
