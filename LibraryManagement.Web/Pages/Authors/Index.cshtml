@@ -1,0 +1,38 @@
+@page
+@model LibraryManagement.Web.Pages.Authors.IndexModel
+@{
+    ViewData["Title"] = "Authors";
+}
+
+<h1>Authors</h1>
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+<p><a asp-page="Create" class="btn btn-primary">Add new author</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Books</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model.Authors)
+        {
+            <tr>
+                <td>@author.Name</td>
+                <td>@author.Books.Count</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@author.Id">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@author.Id">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@author.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

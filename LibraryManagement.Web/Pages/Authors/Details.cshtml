@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model LibraryManagement.Web.Pages.Authors.DetailsModel
+@{
+    ViewData["Title"] = Model.Author.Name;
+}
+
+<h1>@Model.Author.Name</h1>
+<p>@Model.Author.Biography</p>
+
+<h4>Books</h4>
+@if (Model.Author.Books.Any())
+{
+    <ul>
+        @foreach (var book in Model.Author.Books)
+        {
+            <li>@book.Title (@book.PublishedYear)</li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">No books yet.</p>
+}
+
+<a asp-page="Edit" asp-route-id="@Model.Author.Id">Edit</a> |
+<a asp-page="Index">Back to list</a>

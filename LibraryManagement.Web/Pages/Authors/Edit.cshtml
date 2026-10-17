@@ -1,0 +1,34 @@
+@page "{id:int}"
+@model LibraryManagement.Web.Pages.Authors.EditModel
+@{
+    ViewData["Title"] = "Edit Author";
+}
+
+<h1>Edit Author</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Author.Name" class="form-label"></label>
+                <input asp-for="Author.Name" class="form-control" />
+                <span asp-validation-for="Author.Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Author.Biography" class="form-label"></label>
+                <textarea asp-for="Author.Biography" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Author.Biography" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
