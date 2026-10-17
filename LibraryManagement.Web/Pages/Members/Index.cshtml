@@ -1,0 +1,44 @@
+@page
+@model LibraryManagement.Web.Pages.Members.IndexModel
+@{
+    ViewData["Title"] = "Members";
+}
+
+<h1>Members</h1>
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+<p><a asp-page="Create" class="btn btn-primary">Add new member</a></p>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Joined</th>
+            <th>Active loans</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.FullName</td>
+                <td>@member.Email</td>
+                <td>@member.Phone</td>
+                <td>@member.JoinedOn.ToString("yyyy-MM-dd")</td>
+                <td>@member.ActiveLoanCount</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@member.Id">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@member.Id">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@member.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

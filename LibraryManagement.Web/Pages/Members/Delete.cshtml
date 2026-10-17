@@ -1,0 +1,17 @@
+@page "{id:int}"
+@model LibraryManagement.Web.Pages.Members.DeleteModel
+@{
+    ViewData["Title"] = "Delete Member";
+}
+
+<h1>Delete Member</h1>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<h3>Are you sure you want to delete <strong>@Model.Member.FullName</strong>?</h3>
+<p>@Model.Member.Email, @Model.Member.Loans.Count loan(s) on record.</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

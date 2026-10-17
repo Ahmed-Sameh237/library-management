@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace LibraryManagement.Web.Models;
 
 public class Member
@@ -21,4 +21,7 @@ public class Member
 	public DateTime JoinedOn { get; set; } = DateTime.Today;
 
 	public ICollection<Loan> Loans { get; set; } = new List<Loan>();
+    // Computed, not stored. Only correct when Loans has been loaded with Include.
+    [NotMapped]
+    public int ActiveLoanCount => Loans.Count(l => l.ReturnedOn == null);
 }

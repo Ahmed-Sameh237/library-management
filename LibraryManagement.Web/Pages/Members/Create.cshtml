@@ -1,0 +1,40 @@
+@page
+@model LibraryManagement.Web.Pages.Members.CreateModel
+@{
+    ViewData["Title"] = "Create Member";
+}
+
+<h1>Create Member</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Member.FullName" class="form-label"></label>
+                <input asp-for="Member.FullName" class="form-control" />
+                <span asp-validation-for="Member.FullName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Member.Email" class="form-label"></label>
+                <input asp-for="Member.Email" class="form-control" type="email" />
+                <span asp-validation-for="Member.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Member.Phone" class="form-label"></label>
+                <input asp-for="Member.Phone" class="form-control" type="tel" />
+                <span asp-validation-for="Member.Phone" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
